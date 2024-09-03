@@ -20,5 +20,38 @@ namespace LockSafe
         {
             InitializeComponent();
         }
+
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+            // this.Close();
+        }
+
+        private void BtnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void BtnMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                BtnMaximize.Content = "🗖";
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                BtnMaximize.Content = "🗗";
+            }
+        }
+
+        private void WinMain_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
     }
 }

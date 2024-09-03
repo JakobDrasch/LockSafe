@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:LockSafe"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!--Fonts-->
+            <FontFamily x:Key="Futura">pack://application:,,,/Fonts/Futura/#Futura</FontFamily>
+            <FontFamily x:Key="Poppins">pack://application:,,,/Fonts/Poppins/#Poppins</FontFamily>
+
+            <!--Colors-->
+            <SolidColorBrush x:Key="BackgroundColor">#B0BEC5</SolidColorBrush>
+            <SolidColorBrush x:Key="MainColor">#4A4A4A</SolidColorBrush>
+            <SolidColorBrush x:Key="SecondaryColor">#2B6CB0</SolidColorBrush>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
