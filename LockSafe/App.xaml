@@ -11,8 +11,10 @@
 
             <!--Colors-->
             <SolidColorBrush x:Key="BackgroundColor">#B0BEC5</SolidColorBrush>
-            <SolidColorBrush x:Key="MainColor">#4A4A4A</SolidColorBrush>
+            <SolidColorBrush x:Key="MainColor">#99abb2</SolidColorBrush>
             <SolidColorBrush x:Key="SecondaryColor">#2B6CB0</SolidColorBrush>
+            <SolidColorBrush x:Key="FontColor">#f0f3f4</SolidColorBrush>
+            <SolidColorBrush x:Key="LogoColor">#293550</SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
