@@ -63,7 +63,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Viewbox>
+                        <Grid>
                             <Border x:Name="Border" CornerRadius="10" Background="#FFFFFFFF" Width="40" Height="20">
                                 <Border.Effect>
                                     <DropShadowEffect ShadowDepth="0.5" Direction="0" Opacity="0.3" />
@@ -74,29 +74,34 @@
                                     </Ellipse.Effect>
                                 </Ellipse>
                             </Border>
-                        </Viewbox>
-                        <ControlTemplate.Triggers>
-                            <EventTrigger RoutedEvent="Checked">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#2B6CB0" Duration="0:0:0.1" />
-                                        <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="20 1 2 1" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="Unchecked">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.1" />
-                                        <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="2 1 2 1" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ControlTemplate.Triggers>
+
+                            <!-- VisualStateManager innerhalb des Grids -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <!-- Zustand für Checked -->
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#2B6CB0" Duration="0:0:0.3" />
+                                            <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="20 1 2 1" Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <!-- Zustand für Unchecked -->
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3" />
+                                            <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="2 1 2 1" Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
 
         <Style x:Key="SliderThumbStyle" TargetType="Thumb">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -215,20 +220,27 @@
 
             <Label Grid.Row="1" Content="Password" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
             <Border Grid.Row="2" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
-                <TextBox x:Name="TxtPassword" 
-             Text="x3HAsncm/ahs#as12dO" 
+                <TextBlock x:Name="TxtPassword" 
+             Text="{Binding GeneratedPassword}" 
              TextAlignment="Center" 
              Padding="0 5 0 5" 
              Background="Transparent" 
              Foreground="{StaticResource FontColor}" 
              FontFamily="Poppins" 
-             FontSize="16" 
-             BorderThickness="0" 
-             IsReadOnly="True"/>
+             FontSize="16" />
             </Border>
 
 
-            <Label Grid.Row="3" Content="Length 4" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
+            <Label Grid.Row="3" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Length {0}">
+                            <Binding Path="PasswordLength" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Label>
+
             <Border Grid.Row="4" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
                 <Grid Margin="30 10 30 10">
                     <Grid.ColumnDefinitions>
@@ -246,7 +258,8 @@
                         IsSnapToTickEnabled="True"
                         IsSelectionRangeEnabled="True"
                         VerticalAlignment="Center"
-                        Style="{StaticResource AppSliderStyle}"/>
+                        Style="{StaticResource AppSliderStyle}"
+                        Value="{Binding PasswordLength}"/>
 
                     <TextBlock Text="64" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
                 </Grid>
@@ -281,7 +294,9 @@
                         Width="45"
                         Margin="20 5 0 5"
                         HorizontalAlignment="Right"
-                        Style="{StaticResource CustomToggleButton}">
+                        Style="{StaticResource CustomToggleButton}"
+                        IsChecked="{Binding IncludeNumbers}"
+                        >
 
                     </ToggleButton>
                 </Grid>
@@ -314,7 +329,8 @@
                         Width="45"
                         HorizontalAlignment="Right"
                         Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}">
+                        Style="{StaticResource CustomToggleButton}"
+                        IsChecked="{Binding IncludeLetters}">
 
                     </ToggleButton>
                 </Grid>
@@ -347,7 +363,8 @@
                         Width="45"
                         HorizontalAlignment="Right"
                         Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}">
+                        Style="{StaticResource CustomToggleButton}"
+                        IsChecked="{Binding IncludeUpperCase}" >
 
                     </ToggleButton>
                 </Grid>
@@ -380,7 +397,8 @@
                         Width="45"
                         HorizontalAlignment="Right"
                         Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}">
+                        Style="{StaticResource CustomToggleButton}"
+                        IsChecked="{Binding IncludeSpecialCharacters}">
 
                     </ToggleButton>
                 </Grid>

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LockSafe.ViewModels;
 
 namespace LockSafe
 {
@@ -17,9 +19,14 @@ namespace LockSafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel _mainViewModelContext { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            _mainViewModelContext = new MainViewModel();
+            DataContext = _mainViewModelContext;
+
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
@@ -52,34 +59,6 @@ namespace LockSafe
             {
                 DragMove();
             }
-        }
-
-    }
-    public class ValueToDiameterConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            double sliderValue = (double)value;
-            return sliderValue * 2; // Beispiel für einfache Skalierung
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ValueToThumbOffsetConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            double sliderValue = (double)value;
-            return sliderValue; // Beispiel für einfache Offset-Berechnung
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }
