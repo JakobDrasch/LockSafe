@@ -24,6 +24,8 @@ namespace LockSafe.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private bool _isInitializing = false;
+
         private int _passwordLength;
         public int PasswordLength
         {
@@ -33,9 +35,10 @@ namespace LockSafe.ViewModels
                 if (value == _passwordLength)
                     return;
 
-                if (value < 4 || value > 42)
+                if (value < 4 || value > 64)
                     throw new ArgumentOutOfRangeException("Value must be between 4 and 42");
                 _passwordLength = value;
+                GenerateNewPassword();
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FormattedPassword));
             }
@@ -51,6 +54,7 @@ namespace LockSafe.ViewModels
                 if (!IncludeNumbers || (IncludeLetters || IncludeSpecialCharacters))
                 {
                     _includeNumbers = value;
+                    GenerateNewPassword();
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FormattedPassword));
                 }
@@ -73,6 +77,7 @@ namespace LockSafe.ViewModels
                 if (!IncludeLetters || (IncludeNumbers || IncludeSpecialCharacters))
                 {
                     _includeLetters = value;
+                    GenerateNewPassword();
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FormattedPassword));
                 }
@@ -89,6 +94,7 @@ namespace LockSafe.ViewModels
                 if (IncludeLetters)
                 {
                     _includeUpperCase = value;
+                    GenerateNewPassword();
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FormattedPassword));
                 }
@@ -105,38 +111,66 @@ namespace LockSafe.ViewModels
                 if (!IncludeSpecialCharacters || IncludeLetters || IncludeNumbers)
                 {
                     _includeSpecialCharacters = value;
+                    GenerateNewPassword();
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FormattedPassword));
                 }
             }
         }
 
+        private string _generatedPassword = "";
         public string GeneratedPassword
         {
             get
             {
-                string password = PasswordGenerator.GeneratePassword(PasswordLength, IncludeNumbers, IncludeLetters, IncludeUpperCase, IncludeSpecialCharacters);
-                return password;
+                return _generatedPassword;
+            }
+            private set
+            {
+                if (_generatedPassword != value)
+                {
+                    _generatedPassword = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FormattedPassword));
+                }
+            }
+        }
+
+        public ObservableCollection<Run> FormattedPassword
+        {
+            get
+            {
+                return FormatPassword(GeneratedPassword);
             }
         }
 
         public MainViewModel()
         {
+            _isInitializing = true;
+
             PasswordLength = 4;
             IncludeNumbers = false;
             IncludeLetters = true;
             IncludeUpperCase = false;
             IncludeSpecialCharacters = false;
+
+            _isInitializing = false;
+            GenerateNewPassword();
         }
 
 
+        public void GenerateNewPassword()
+        {
+            if (_isInitializing)
+                return;
 
-        public ObservableCollection<Run> FormattedPassword 
-        { 
-            get
-            {
-                return FormatPassword(GeneratedPassword);
-            }
+            string password = PasswordGenerator.GeneratePassword(PasswordLength, IncludeNumbers, IncludeLetters, IncludeUpperCase, IncludeSpecialCharacters);
+            GeneratedPassword = password;
+        }
+
+        public void CopyCurrentPassword()
+        {
+            System.Windows.Clipboard.SetText(GeneratedPassword);
         }
 
         /// <summary>

@@ -79,5 +79,14 @@ namespace LockSafe
                 DragMove();
             }
         }
+
+        private void BtnGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            _mainViewModelContext.GenerateNewPassword();
+        }
+        private void BtnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            _mainViewModelContext.CopyCurrentPassword();
+        }
     }
 }
