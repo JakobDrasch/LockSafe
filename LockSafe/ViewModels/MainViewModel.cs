@@ -140,7 +140,7 @@ namespace LockSafe.ViewModels
         {
             get
             {
-                return FormatPassword(GeneratedPassword);
+                return FormatPassword();
             }
         }
 
@@ -178,14 +178,14 @@ namespace LockSafe.ViewModels
         /// </summary>
         /// <param name="password">The generated password as string</param>
         /// <returns>A ObservableCollection of a formated string (Run) which notifys the UI</returns>
-        public ObservableCollection<Run> FormatPassword(string password)
+        private ObservableCollection<Run> FormatPassword()
         {
             // Run = formated string/char
             var formattedPassword = new ObservableCollection<Run>();
 
-            foreach (var character in password)
+            foreach (var character in GeneratedPassword)
             {
-                var run = new Run(character.ToString());
+                var run = new Run(character.ToString().Normalize());
 
                 // if the current character is a special character of the PasswordGenerator class
                 if (PasswordGenerator.SpecialCharacters.Contains(character))
@@ -196,6 +196,8 @@ namespace LockSafe.ViewModels
                 {
                     run.Foreground = (SolidColorBrush)Application.Current.Resources["FontColor"];
                 }
+
+                run.Text = $"\u200B{character.ToString()}";
 
                 formattedPassword.Add(run);
             }

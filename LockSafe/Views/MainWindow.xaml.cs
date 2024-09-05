@@ -33,20 +33,35 @@ namespace LockSafe
             {
                 if (e.PropertyName == "FormattedPassword")
                 {
-                    UpdateTextBlockInlines(_mainViewModelContext.FormattedPassword);
+                    //UpdateTextBlockInlines(_mainViewModelContext.FormattedPassword);
+                    UpdateRichTextBoxInlines(_mainViewModelContext.FormattedPassword);
                 }
             };
 
         }
 
-        private void UpdateTextBlockInlines(ObservableCollection<Run> formattedPassword)
+        /*        private void UpdateTextBlockInlines(ObservableCollection<Run> formattedPassword)
+                {
+                    TxtPassword.Inlines.Clear();
+                    foreach (var run in formattedPassword)
+                    {
+                        TxtPassword.Inlines.Add(run);
+                    }
+                }*/
+
+        private void UpdateRichTextBoxInlines(ObservableCollection<Run> formattedPassword)
         {
-            TxtPassword.Inlines.Clear();
+            RTbPassword.Document.Blocks.Clear();
+
+            var paragraph = new Paragraph();
             foreach (var run in formattedPassword)
             {
-                TxtPassword.Inlines.Add(run);
+                paragraph.Inlines.Add(run);  // Add each Run to the paragraph
             }
+
+            RTbPassword.Document.Blocks.Add(paragraph);
         }
+
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {

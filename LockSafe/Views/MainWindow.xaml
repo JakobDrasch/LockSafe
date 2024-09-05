@@ -224,37 +224,37 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Name="TxtPassword" 
-                        TextAlignment="Left" 
+                    <RichTextBox x:Name="RTbPassword" 
+                        IsReadOnly="True" 
                         Padding="0 5 0 5"
                         Margin="0 0 20 0"
                         Background="Transparent"
+                        BorderThickness="0"
                         FontFamily="Poppins"
-                        FontSize="18"
-                        Grid.Column="0"
-                        TextWrapping="Wrap" >
-                        <!-- Inlines -> Display text dynamically in several parts (different run elements) -->
-                        <TextBlock.Inlines>
-                            <ItemsControl ItemsSource="{Binding FormattedPassword}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                            <!-- Text and foreground of run is binded to the text / foreground of the FormattedPassword collection -->
-                                            <Run Text="{Binding Text}" 
-                                                Foreground="{Binding Foreground}" 
-                                                FontSize="18" 
-                                                FontFamily="Poppins" />
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </TextBlock.Inlines>
-                    </TextBlock>
+                        FontSize="18"                                
+                        VerticalScrollBarVisibility="Hidden"
+                        HorizontalScrollBarVisibility="Hidden" >
+                        <FlowDocument >
+                            <Paragraph>
+                                <InlineUIContainer>
+                                    <ItemsControl ItemsSource="{Binding FormattedPassword}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock TextWrapping="Wrap">
+                                                    <Run Text="{Binding Text}" Foreground="{Binding Foreground}" FontSize="18" FontFamily="Poppins" />
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </InlineUIContainer>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
 
                     <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnGenerate" Grid.Column="1" Content="🗘" 
                         HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource MainColor}"  
