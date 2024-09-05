@@ -11,7 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using LockSafe.ViewModels;
+using LockSafe.Models;
+using System.Windows.Media.Animation;
 
 namespace LockSafe
 {
@@ -20,12 +23,15 @@ namespace LockSafe
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel _mainViewModelContext { get; set; }
+        private MainViewModel _mainViewModelContext;
+        private NotificationManager _popup;
 
         public MainWindow()
         {
             InitializeComponent();
             _mainViewModelContext = new MainViewModel();
+            _popup = new NotificationManager(ref this.NotificationPopup, ref this.NotificationText, ref this.MainGrid);
+
             this.DataContext = _mainViewModelContext;
 
             // Füge einen EventHandler hinzu, der auf Änderungen in FormattedPassword reagiert
@@ -33,21 +39,12 @@ namespace LockSafe
             {
                 if (e.PropertyName == "FormattedPassword")
                 {
-                    //UpdateTextBlockInlines(_mainViewModelContext.FormattedPassword);
                     UpdateRichTextBoxInlines(_mainViewModelContext.FormattedPassword);
                 }
             };
 
-        }
 
-        /*        private void UpdateTextBlockInlines(ObservableCollection<Run> formattedPassword)
-                {
-                    TxtPassword.Inlines.Clear();
-                    foreach (var run in formattedPassword)
-                    {
-                        TxtPassword.Inlines.Add(run);
-                    }
-                }*/
+        }
 
         private void UpdateRichTextBoxInlines(ObservableCollection<Run> formattedPassword)
         {
@@ -101,7 +98,9 @@ namespace LockSafe
         }
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
-            _mainViewModelContext.CopyCurrentPassword();
+            _mainViewModelContext.CopyCurrentPassword();            
+            _popup.ShowNotification("Password copied to clipboard");
+
         }
     }
 }

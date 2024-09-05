@@ -12,7 +12,7 @@ namespace LockSafe.Models
         private static readonly string Numbers = "0123456789";
         private static readonly string LowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
         private static readonly string UpperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        public static readonly string SpecialCharacters = "@#=&*_?-+!$"; // %^|;:,.<>/?-+!$
+        public static readonly string SpecialCharacters = "@#=&*_?-+!$";
 
         public static string GeneratePassword(int length, bool includeNumbers, bool includeLetters, bool includeUpperCase, bool includeSpecialCharacters)
         {

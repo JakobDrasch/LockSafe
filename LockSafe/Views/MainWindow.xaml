@@ -8,7 +8,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Title="Lock Safe" Height="577" Width="951" WindowStartupLocation="CenterScreen" MinWidth="951" MinHeight="577" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="WinMain_MouseLeftButtonDown">
+        Title="Lock Safe" Height="630" Width="991" WindowStartupLocation="CenterScreen" MinWidth="951" MinHeight="577" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="WinMain_MouseLeftButtonDown">
     <Window.Resources>
         <Style x:Key="FocusVisual1">
             <Setter Property="Control.Template">
@@ -166,286 +166,313 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
     </Window.Resources>
-    <Grid Background="{StaticResource BackgroundColor}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"></ColumnDefinition>
-            <ColumnDefinition Width="60*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Popup x:Name="NotificationPopup"
+               Placement="Bottom"
+               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
+               IsOpen="False"
+               StaysOpen="True"
+               HorizontalOffset="0"                       
+               VerticalOffset="-55" 
+               AllowsTransparency="True"
+               PopupAnimation="Fade"
+               Opacity="0">
+            <!-- Adjust this value for vertical positioning -->
+            <Border Background="{StaticResource SecondaryColor}" 
+                    Padding="10" 
+                    CornerRadius="20"
+                    BorderBrush="{StaticResource LogoColor}" 
+                    BorderThickness="1">
+                <TextBlock x:Name="NotificationText" 
+                           Text="This is a notification" 
+                           FontSize="14"
+                           Foreground="{StaticResource FontColor}"
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"/>
+            </Border>
+        </Popup>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
+        <Grid x:Name="MainGrid" Background="{StaticResource BackgroundColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="60*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-        <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnExit" Grid.Column="1"  Grid.Row="0" Content="✖"  
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0" 
-                Foreground="{StaticResource SecondaryColor}" Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" 
-                FontSize="14" BorderThickness="0,0,0,0" Cursor="Hand" Click="BtnExit_Click">
-        </Button>
-        <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnMinimize" Grid.Column="1" Grid.Row="0" Content="➖" 
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,74,0" Foreground="{StaticResource SecondaryColor}" 
-                Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="14" BorderThickness="0,0,0,0" 
-                Cursor="Hand" Click="BtnMinimize_Click">
-        </Button>
-        <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnMaximize" Grid.Column="1"  Grid.Row="0" Content="🗖" 
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,46,0" Foreground="{StaticResource SecondaryColor}" 
-                Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="14" BorderThickness="0,0,0,0" 
-                Cursor="Hand" FontWeight="Bold" Click="BtnMaximize_Click">
-        </Button>
-        
-        <Image Source="pack://application:,,,/Images/LockSafeLogo.png" Grid.Column="0" Grid.Row="1"></Image>
-
-        <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="25 0 25 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            
-            <TextBlock x:Name="TbHeading" Grid.Row="0" Text="Generate Password" FontFamily="Poppins" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="{DynamicResource SecondaryColor}" FontWeight="Bold" Margin="0 0 0 15"></TextBlock>
 
-            <Label Grid.Row="1" Content="Password" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
-            <Border Grid.Row="2" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
-                <Grid Margin="30 0 25 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnExit" Grid.Column="1"  Grid.Row="0" Content="✖"  
+            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0" 
+            Foreground="{StaticResource SecondaryColor}" Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" 
+            FontSize="14" BorderThickness="0,0,0,0" Cursor="Hand" Click="BtnExit_Click">
+            </Button>
+            <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnMinimize" Grid.Column="1" Grid.Row="0" Content="➖" 
+            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,74,0" Foreground="{StaticResource SecondaryColor}" 
+            Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="14" BorderThickness="0,0,0,0" 
+            Cursor="Hand" Click="BtnMinimize_Click">
+            </Button>
+            <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnMaximize" Grid.Column="1"  Grid.Row="0" Content="🗖" 
+            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,46,0" Foreground="{StaticResource SecondaryColor}" 
+            Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="14" BorderThickness="0,0,0,0" 
+            Cursor="Hand" FontWeight="Bold" Click="BtnMaximize_Click">
+            </Button>
 
-                    <RichTextBox x:Name="RTbPassword" 
-                        IsReadOnly="True" 
-                        Padding="0 5 0 5"
-                        Margin="0 0 20 0"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        FontFamily="Poppins"
-                        FontSize="18"                                
-                        VerticalScrollBarVisibility="Hidden"
-                        HorizontalScrollBarVisibility="Hidden" >
-                        <FlowDocument >
-                            <Paragraph>
-                                <InlineUIContainer>
-                                    <ItemsControl ItemsSource="{Binding FormattedPassword}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock TextWrapping="Wrap">
-                                                    <Run Text="{Binding Text}" Foreground="{Binding Foreground}" FontSize="18" FontFamily="Poppins" />
-                                                </TextBlock>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </InlineUIContainer>
-                            </Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
+            <Image Source="pack://application:,,,/Images/LockSafeLogo.png" Grid.Column="0" Grid.Row="1"></Image>
 
-                    <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnGenerate" Grid.Column="1" Content="🗘" 
-                        HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource MainColor}"  
-                        Foreground="{StaticResource SecondaryColor}" Margin="0 0 7 0" BorderThickness="0,0,0,0" 
-                        Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="24"
-                        Cursor="Hand" FontWeight="Bold" Click="BtnGenerate_Click">
-                    </Button>
+            <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="25 0 25 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
 
-                    <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnCopy" Grid.Column="2" Content="📋" 
-                        HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource MainColor}"  
-                        Foreground="{StaticResource SecondaryColor}" Margin="0 0 0 0" BorderThickness="0,0,0,0" 
-                        Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="17.3"
-                        Cursor="Hand" FontWeight="Bold" Click="BtnCopy_Click">
-                    </Button>
+                <TextBlock x:Name="TbHeading" Grid.Row="0" Text="Generate Password" FontFamily="Poppins" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="{DynamicResource SecondaryColor}" FontWeight="Bold" Margin="0 0 0 15"></TextBlock>
 
-                </Grid>
-            </Border>
+                <Label Grid.Row="1" Content="Password" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
+                <Border Grid.Row="2" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                    <Grid Margin="30 0 25 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
+                        <RichTextBox x:Name="RTbPassword" 
+                    IsReadOnly="True" 
+                    Padding="0 5 0 5"
+                    Margin="0 0 20 0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FontFamily="Poppins"
+                    FontSize="18"                                
+                    VerticalScrollBarVisibility="Hidden"
+                    HorizontalScrollBarVisibility="Hidden" >
+                            <FlowDocument >
+                                <Paragraph>
+                                    <InlineUIContainer>
+                                        <ItemsControl ItemsSource="{Binding FormattedPassword}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap">
+                                                <Run Text="{Binding Text}" Foreground="{Binding Foreground}" FontSize="18" FontFamily="Poppins" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </InlineUIContainer>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
 
-            <Label Grid.Row="3" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}">
-                <TextBlock>
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="Length {0}">
-                            <Binding Path="PasswordLength" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </Label>
+                        <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnGenerate" Grid.Column="1" Content="🗘" 
+                    HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource MainColor}"  
+                    Foreground="{StaticResource SecondaryColor}" Margin="0 0 7 0" BorderThickness="0,0,0,0" 
+                    Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="24"
+                    Cursor="Hand" FontWeight="Bold" Click="BtnGenerate_Click" ToolTip="Generate again">
+                        </Button>
 
-            <Border Grid.Row="4" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
-                <Grid Margin="30 10 30 10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                        <Button Style="{DynamicResource NoHoverButtonStyle}" x:Name="BtnCopy" Grid.Column="2" Content="📋" 
+                    HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource MainColor}"  
+                    Foreground="{StaticResource SecondaryColor}" Margin="0 0 0 0" BorderThickness="0,0,0,0" 
+                    Padding="0,0,0,0" UseLayoutRounding="False" FontFamily="Microsoft Sans Serif" FontSize="17.3"
+                    Cursor="Hand" FontWeight="Bold" Click="BtnCopy_Click" ToolTip="Copy password">
+                        </Button>
 
-                    <TextBlock Text="4" VerticalAlignment="Center" Margin="0 0 10 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}"/>
-
-                    <Slider 
-                        Grid.Column="1"
-                        Minimum="4"
-                        Maximum="64"                   
-                        IsSnapToTickEnabled="True"
-                        IsSelectionRangeEnabled="True"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource AppSliderStyle}"
-                        Value="{Binding PasswordLength}"/>
-
-                    <TextBlock Text="64" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
 
 
-            <Label Grid.Row="5" Content="Settings" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
-            <Border Grid.Row="6" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
-
-                <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock
-                        x:Name="TbSettingNumbers"
-                        Grid.Column="0"
-                        Text="Include Numbers" 
-                        FontFamily="Poppins" 
-                        FontSize="16" 
-                        HorizontalAlignment="Left"
-                        Foreground="{StaticResource FontColor}"
-                        Padding="0 5 0 5">
-
+                <Label Grid.Row="3" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}">
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Length {0}">
+                                <Binding Path="PasswordLength" />
+                            </MultiBinding>
+                        </TextBlock.Text>
                     </TextBlock>
+                </Label>
 
-                    <ToggleButton 
-                        x:Name="TogBtnSettingNumbers"
-                        Grid.Column="1"
-                        Content="Toggle"  
-                        Width="45"
-                        Margin="20 5 0 5"
-                        HorizontalAlignment="Right"
-                        Style="{StaticResource CustomToggleButton}"
-                        IsChecked="{Binding IncludeNumbers}"
-                        >
+                <Border Grid.Row="4" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                    <Grid Margin="30 10 30 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    </ToggleButton>
-                </Grid>
-            </Border>
+                        <TextBlock Text="4" VerticalAlignment="Center" Margin="0 0 10 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}"/>
 
-            <Border Grid.Row="7" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                        <Slider 
+                    Grid.Column="1"
+                    Minimum="4"
+                    Maximum="64"                   
+                    IsSnapToTickEnabled="True"
+                    IsSelectionRangeEnabled="True"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource AppSliderStyle}"
+                    Value="{Binding PasswordLength}"/>
 
-                <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock
-                        x:Name="TbSettingLetters"
-                        Grid.Column="0"
-                        Text="Include Letters" 
-                        FontFamily="Poppins" 
-                        FontSize="16" 
-                        HorizontalAlignment="Left" 
-                        Foreground="{StaticResource FontColor}"
-                        Padding="0 5 0 5">
+                        <TextBlock Text="64" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
+                    </Grid>
+                </Border>
 
-                    </TextBlock>
 
-                    <ToggleButton 
-                        x:Name="TogBtnSetting"
-                        Grid.Column="1"
-                        Content="Toggle"  
-                        Width="45"
-                        HorizontalAlignment="Right"
-                        Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}"
-                        IsChecked="{Binding IncludeLetters}">
+                <Label Grid.Row="5" Content="Settings" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
+                <Border Grid.Row="6" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
-                    </ToggleButton>
-                </Grid>
-            </Border>
+                    <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="8" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                        <TextBlock
+                    x:Name="TbSettingNumbers"
+                    Grid.Column="0"
+                    Text="Include Numbers" 
+                    FontFamily="Poppins" 
+                    FontSize="16" 
+                    HorizontalAlignment="Left"
+                    Foreground="{StaticResource FontColor}"
+                    Padding="0 5 0 5">
 
-                <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                        </TextBlock>
 
-                    <TextBlock
-                        x:Name="TbSettingUpperCase"
-                        Grid.Column="0"
-                        Text="Include Upper Case Letters" 
-                        FontFamily="Poppins" 
-                        FontSize="16" 
-                        HorizontalAlignment="Left" 
-                        Foreground="{StaticResource FontColor}"
-                        Padding="0 5 0 5">
+                        <ToggleButton 
+                    x:Name="TogBtnSettingNumbers"
+                    Grid.Column="1"
+                    Content="Toggle"  
+                    Width="45"
+                    Margin="20 5 0 5"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource CustomToggleButton}"
+                    IsChecked="{Binding IncludeNumbers}"
+                    >
 
-                    </TextBlock>
+                        </ToggleButton>
+                    </Grid>
+                </Border>
 
-                    <ToggleButton 
-                        x:Name="TogBtnUpperCase"
-                        Grid.Column="1"
-                        Content="Toggle"  
-                        Width="45"
-                        HorizontalAlignment="Right"
-                        Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}"
-                        IsChecked="{Binding IncludeUpperCase}" >
+                <Border Grid.Row="7" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
-                    </ToggleButton>
-                </Grid>
-            </Border>
+                    <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="9" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                        <TextBlock
+                    x:Name="TbSettingLetters"
+                    Grid.Column="0"
+                    Text="Include Letters" 
+                    FontFamily="Poppins" 
+                    FontSize="16" 
+                    HorizontalAlignment="Left" 
+                    Foreground="{StaticResource FontColor}"
+                    Padding="0 5 0 5">
 
-                <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                        <ColumnDefinition Width="50*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                        </TextBlock>
 
-                    <TextBlock
-                        x:Name="TbSettingSpecialCharacters"
-                        Grid.Column="0"
-                        Text="Include Special Characters" 
-                        FontFamily="Poppins" 
-                        FontSize="16" 
-                        HorizontalAlignment="Left" 
-                        Foreground="{StaticResource FontColor}"
-                        Padding="0 5 0 5">
+                        <ToggleButton 
+                    x:Name="TogBtnSetting"
+                    Grid.Column="1"
+                    Content="Toggle"  
+                    Width="45"
+                    HorizontalAlignment="Right"
+                    Margin="20 5 0 5"
+                    Style="{StaticResource CustomToggleButton}"
+                    IsChecked="{Binding IncludeLetters}">
 
-                    </TextBlock>
+                        </ToggleButton>
+                    </Grid>
+                </Border>
 
-                    <ToggleButton 
-                        x:Name="TogBtnSpecialCharacters"
-                        Grid.Column="1"
-                        Content="Toggle"  
-                        Width="45"
-                        HorizontalAlignment="Right"
-                        Margin="20 5 0 5"
-                        Style="{StaticResource CustomToggleButton}"
-                        IsChecked="{Binding IncludeSpecialCharacters}">
+                <Border Grid.Row="8" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
-                    </ToggleButton>
-                </Grid>
-            </Border>
+                    <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                    x:Name="TbSettingUpperCase"
+                    Grid.Column="0"
+                    Text="Include Upper Case Letters" 
+                    FontFamily="Poppins" 
+                    FontSize="16" 
+                    HorizontalAlignment="Left" 
+                    Foreground="{StaticResource FontColor}"
+                    Padding="0 5 0 5">
+
+                        </TextBlock>
+
+                        <ToggleButton 
+                    x:Name="TogBtnUpperCase"
+                    Grid.Column="1"
+                    Content="Toggle"  
+                    Width="45"
+                    HorizontalAlignment="Right"
+                    Margin="20 5 0 5"
+                    Style="{StaticResource CustomToggleButton}"
+                    IsChecked="{Binding IncludeUpperCase}" >
+
+                        </ToggleButton>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="9" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+
+                    <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                    x:Name="TbSettingSpecialCharacters"
+                    Grid.Column="0"
+                    Text="Include Special Characters" 
+                    FontFamily="Poppins" 
+                    FontSize="16" 
+                    HorizontalAlignment="Left" 
+                    Foreground="{StaticResource FontColor}"
+                    Padding="0 5 0 5">
+
+                        </TextBlock>
+
+                        <ToggleButton 
+                    x:Name="TogBtnSpecialCharacters"
+                    Grid.Column="1"
+                    Content="Toggle"  
+                    Width="45"
+                    HorizontalAlignment="Right"
+                    Margin="20 5 0 5"
+                    Style="{StaticResource CustomToggleButton}"
+                    IsChecked="{Binding IncludeSpecialCharacters}">
+
+                        </ToggleButton>
+                    </Grid>
+                </Border>
+
+            </Grid>
 
         </Grid>
 

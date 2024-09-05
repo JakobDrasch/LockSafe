@@ -170,7 +170,14 @@ namespace LockSafe.ViewModels
 
         public void CopyCurrentPassword()
         {
-            System.Windows.Clipboard.SetText(GeneratedPassword);
+            try
+            {
+                System.Windows.Clipboard.SetText(GeneratedPassword);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }            
         }
 
         /// <summary>
