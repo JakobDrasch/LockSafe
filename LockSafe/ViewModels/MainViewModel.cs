@@ -74,6 +74,7 @@ namespace LockSafe.ViewModels
                 {
                     _includeLetters = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(FormattedPassword));
                 }
             }
         }
