@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
 using LockSafe.Models;
 
 namespace LockSafe.ViewModels
@@ -27,12 +30,14 @@ namespace LockSafe.ViewModels
             get { return _passwordLength; }
             set 
             {
-  
-                if (value < 4 || value > 64)
-                    throw new ArgumentOutOfRangeException("Value must be between 4 and 64");
+                if (value == _passwordLength)
+                    return;
+
+                if (value < 4 || value > 42)
+                    throw new ArgumentOutOfRangeException("Value must be between 4 and 42");
                 _passwordLength = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(GeneratedPassword));
+                OnPropertyChanged(nameof(FormattedPassword));
             }
         }
 
@@ -44,9 +49,11 @@ namespace LockSafe.ViewModels
             set 
             {
                 if (!IncludeNumbers || (IncludeLetters || IncludeSpecialCharacters))
+                {
                     _includeNumbers = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(GeneratedPassword));
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FormattedPassword));
+                }
             }
         }
 
@@ -55,14 +62,19 @@ namespace LockSafe.ViewModels
         public bool IncludeLetters
         {
             get { return _includeLetters; }
-            set 
+            set
             {
                 if (IncludeLetters && IncludeUpperCase && !value && (IncludeNumbers || IncludeSpecialCharacters))
+                {
                     IncludeUpperCase = false;
+                    OnPropertyChanged(nameof(FormattedPassword));
+                }
+                   
                 if (!IncludeLetters || (IncludeNumbers || IncludeSpecialCharacters))
+                {
                     _includeLetters = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(GeneratedPassword));
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -71,15 +83,14 @@ namespace LockSafe.ViewModels
         public bool IncludeUpperCase
         {
             get { return _includeUpperCase; }
-            set 
+            set
             {
-                if (IncludeUpperCase && IncludeLetters && (IncludeNumbers || IncludeSpecialCharacters) && !value)
-                    _includeUpperCase = value;
-
                 if (IncludeLetters)
+                {
                     _includeUpperCase = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(GeneratedPassword));
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FormattedPassword));
+                }
             }
         }
 
@@ -88,12 +99,14 @@ namespace LockSafe.ViewModels
         public bool IncludeSpecialCharacters
         {
             get { return _includeSpecialCharacters; }
-            set 
+            set
             {
-                if (!IncludeSpecialCharacters || (IncludeLetters || IncludeNumbers))
+                if (!IncludeSpecialCharacters || IncludeLetters || IncludeNumbers)
+                {
                     _includeSpecialCharacters = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(GeneratedPassword));
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FormattedPassword));
+                }
             }
         }
 
@@ -101,7 +114,8 @@ namespace LockSafe.ViewModels
         {
             get
             {
-                return PasswordGenerator.GeneratePassword(PasswordLength, IncludeNumbers, IncludeLetters, IncludeUpperCase, IncludeSpecialCharacters);
+                string password = PasswordGenerator.GeneratePassword(PasswordLength, IncludeNumbers, IncludeLetters, IncludeUpperCase, IncludeSpecialCharacters);
+                return password;
             }
         }
 
@@ -113,5 +127,46 @@ namespace LockSafe.ViewModels
             IncludeUpperCase = false;
             IncludeSpecialCharacters = false;
         }
+
+
+
+        public ObservableCollection<Run> FormattedPassword 
+        { 
+            get
+            {
+                return FormatPassword(GeneratedPassword);
+            }
+        }
+
+        /// <summary>
+        /// A method that returns the formated password (special characters colored)
+        /// </summary>
+        /// <param name="password">The generated password as string</param>
+        /// <returns>A ObservableCollection of a formated string (Run) which notifys the UI</returns>
+        public ObservableCollection<Run> FormatPassword(string password)
+        {
+            // Run = formated string/char
+            var formattedPassword = new ObservableCollection<Run>();
+
+            foreach (var character in password)
+            {
+                var run = new Run(character.ToString());
+
+                // if the current character is a special character of the PasswordGenerator class
+                if (PasswordGenerator.SpecialCharacters.Contains(character))
+                {
+                    run.Foreground = (SolidColorBrush)Application.Current.Resources["SecondaryColor"];
+                }
+                else
+                {
+                    run.Foreground = (SolidColorBrush)Application.Current.Resources["FontColor"];
+                }
+
+                formattedPassword.Add(run);
+            }
+
+            return formattedPassword;
+        }
+
     }
 }

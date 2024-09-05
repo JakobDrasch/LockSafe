@@ -221,13 +221,33 @@
             <Label Grid.Row="1" Content="Password" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
             <Border Grid.Row="2" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
                 <TextBlock x:Name="TxtPassword" 
-             Text="{Binding GeneratedPassword}" 
-             TextAlignment="Center" 
-             Padding="0 5 0 5" 
-             Background="Transparent" 
-             Foreground="{StaticResource FontColor}" 
-             FontFamily="Poppins" 
-             FontSize="16" />
+                    TextAlignment="Center" 
+                    Padding="0 5 0 5"
+                    Background="Transparent"
+                    FontFamily="Poppins"
+                    FontSize="18">
+                    <!-- Inlines -> Display text dynamically in several parts (different run elements) -->
+                    <TextBlock.Inlines>
+                        <ItemsControl ItemsSource="{Binding FormattedPassword}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                        <!-- Text and foreground of run is binded to the text / foreground of the FormattedPassword collection -->
+                        <Run Text="{Binding Text}" 
+                             Foreground="{Binding Foreground}" 
+                             FontSize="18" 
+                             FontFamily="Poppins" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </TextBlock.Inlines>
+</TextBlock>
             </Border>
 
 
@@ -254,14 +274,14 @@
                     <Slider 
                         Grid.Column="1"
                         Minimum="4"
-                        Maximum="64"                   
+                        Maximum="42"                   
                         IsSnapToTickEnabled="True"
                         IsSelectionRangeEnabled="True"
                         VerticalAlignment="Center"
                         Style="{StaticResource AppSliderStyle}"
                         Value="{Binding PasswordLength}"/>
 
-                    <TextBlock Text="64" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
+                    <TextBlock Text="42" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
                 </Grid>
             </Border>
 

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Windows;
@@ -25,8 +26,26 @@ namespace LockSafe
         {
             InitializeComponent();
             _mainViewModelContext = new MainViewModel();
-            DataContext = _mainViewModelContext;
+            this.DataContext = _mainViewModelContext;
 
+            // Füge einen EventHandler hinzu, der auf Änderungen in FormattedPassword reagiert
+            _mainViewModelContext.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "FormattedPassword")
+                {
+                    UpdateTextBlockInlines(_mainViewModelContext.FormattedPassword);
+                }
+            };
+
+        }
+
+        private void UpdateTextBlockInlines(ObservableCollection<Run> formattedPassword)
+        {
+            TxtPassword.Inlines.Clear();
+            foreach (var run in formattedPassword)
+            {
+                TxtPassword.Inlines.Add(run);
+            }
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
