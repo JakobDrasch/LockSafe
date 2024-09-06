@@ -320,7 +320,7 @@ namespace LockSafe.ViewModels
                 if (roundedTime <= 1000)
                     return $"{roundedTime} {(roundedTime == 1D ? "year" : "years")}";
                 else
-                    return "Infinte";
+                    return "More than 1000 years";
             }
         }
 
