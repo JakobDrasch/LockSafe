@@ -132,6 +132,7 @@ namespace LockSafe.ViewModels
                     _generatedPassword = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FormattedPassword));
+                    OnPropertyChanged(nameof(CrackTimeText));
                 }
             }
         }
@@ -143,6 +144,16 @@ namespace LockSafe.ViewModels
                 return FormatPassword();
             }
         }
+
+        public string CrackTimeText 
+        { 
+            get
+            {
+                return GetCrackTimeText();
+            }        
+        }
+
+        public SolidColorBrush PasswordStrengthColor { get; private set; }
 
         public MainViewModel()
         {
@@ -210,6 +221,59 @@ namespace LockSafe.ViewModels
             }
 
             return formattedPassword;
+        }
+
+        private string GetCrackTimeText()
+        {
+            const int secondsInMinute = 60;
+            const int secondsInHour = 60 * 60;
+            const int secondsInDay = 60 * 60 * 24;
+            //const int secondsInMonth = 60 * 60 * 24 * 30;
+            const int secondsInYear = 60 * 60 * 24 * 365;
+
+            var entropy = PasswordGenerator.CalculateEntropy(GeneratedPassword);
+            var timeInSeconds = PasswordGenerator.EstimateCrackTime(entropy, 1_000_000);
+
+            if (entropy < 40)
+                PasswordStrengthColor = new SolidColorBrush(Colors.Red);
+            else if (entropy < 60)
+                PasswordStrengthColor = new SolidColorBrush(Colors.Orange);
+            else
+                PasswordStrengthColor = new SolidColorBrush(Colors.Green);
+
+            OnPropertyChanged(nameof(PasswordStrengthColor));
+
+            if (timeInSeconds < 1D)
+                timeInSeconds = 1D;
+
+            if (timeInSeconds < secondsInMinute)
+            {
+                double roundedTime = Math.Round(timeInSeconds);
+                return $"{roundedTime} {(roundedTime == 1D ? "second" : "seconds")}";
+            }
+            else if (timeInSeconds < secondsInHour)
+            {
+                double roundedTime = Math.Round(timeInSeconds / secondsInMinute);
+                return $"{roundedTime} {(roundedTime == 1D ? "minute" : "minutes")}";
+            }
+            else if (timeInSeconds < secondsInDay)
+            {
+                double roundedTime = Math.Round(timeInSeconds / secondsInHour);
+                return $"{roundedTime} {(roundedTime == 1D ? "hour" : "hours")}";
+            }
+            else if (timeInSeconds < secondsInYear)
+            {
+                double roundedTime = Math.Round(timeInSeconds / secondsInDay);
+                return $"{roundedTime} {(roundedTime == 1D ? "day" : "days")}";
+            }
+            else
+            {
+                double roundedTime = Math.Round(timeInSeconds / secondsInYear);
+                if (roundedTime <= 1000)
+                    return $"{roundedTime} {(roundedTime == 1D ? "year" : "years")}";
+                else
+                    return "Infinte";
+            }
         }
 
     }

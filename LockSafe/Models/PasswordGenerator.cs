@@ -14,6 +14,11 @@ namespace LockSafe.Models
         private static readonly string UpperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public static readonly string SpecialCharacters = "@#=&*_?-+!$";
 
+        private static bool HasLowercase(string password) => password.IndexOfAny("abcdefghijklmnopqrstuvwxyz".ToCharArray()) >= 0;
+        private static bool HasUppercase(string password) => password.IndexOfAny("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()) >= 0;
+        private static bool HasDigit(string password) => password.IndexOfAny("0123456789".ToCharArray()) >= 0;
+        private static bool HasSpecial(string password) => password.IndexOfAny("~`!@#$%^&*()-_=+[]{}|;:'\",.<>?/".ToCharArray()) >= 0;
+
         public static string GeneratePassword(int length, bool includeNumbers, bool includeLetters, bool includeUpperCase, bool includeSpecialCharacters)
         {
             if (length < 1) throw new ArgumentException("Length must be greater than 0");
@@ -57,5 +62,33 @@ namespace LockSafe.Models
             // Mische die Zeichen
             return new string(password.ToString().OrderBy(c => Random.Next()).ToArray());
         }
+
+        public static double CalculateEntropy(string password)
+        {
+            int lowercase = LowerCaseLetters.Length;
+            int uppercase = UpperCaseLetters.Length;
+            int digits = Numbers.Length; 
+            int special = SpecialCharacters.Length;
+
+            int charsetSize = 0;
+
+            if (HasLowercase(password)) charsetSize += lowercase;
+            if (HasUppercase(password)) charsetSize += uppercase;
+            if (HasDigit(password)) charsetSize += digits;
+            if (HasSpecial(password)) charsetSize += special;
+
+            if (charsetSize == 0) return 0;
+
+            double entropy = Math.Log2(Math.Pow(charsetSize, password.Length));
+            return entropy;
+        }
+
+        public static double EstimateCrackTime(double entropy, double attemptsPerSecond)
+        {
+            double totalAttempts = Math.Pow(2, entropy);
+            return totalAttempts / attemptsPerSecond;
+        }
+
     }
+
 }
