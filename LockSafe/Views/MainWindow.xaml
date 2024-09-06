@@ -235,6 +235,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -253,7 +254,7 @@
                     </StackPanel>
                 </Grid>
                 <!-- Grid mit 2 Column für row1 links password text rechts zeit zum knacken und sicherheit hoch/mittel/schwach englisch chatgpt für algorithmus. farbe daruntter green orange red -->
-                <Border Grid.Row="2" CornerRadius="15" BorderBrush="{Binding PasswordStrengthColor}" BorderThickness="0 0 0 4" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Border Grid.Row="2" CornerRadius="15" BorderBrush="{Binding PasswordStrengthColor}" BorderThickness="0 0 0 3" Background="{StaticResource MainColor}">
                     <Grid Margin="30 0 25 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -310,8 +311,13 @@
                     </Grid>
                 </Border>
 
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3 2 0 0" >
+                    <Path x:Name="SecurityIcon" Data="{Binding PasswordStrengthIcon}" Fill="{Binding PasswordStrengthColor}" VerticalAlignment="Center" Stretch="Uniform" Width="20" Height="20"/>
+                    <Label HorizontalAlignment="Left" Content="Security:" FontFamily="Poppins" FontSize="12" FontWeight="Bold" Foreground="{Binding PasswordStrengthColor}" ></Label>
+                    <Label x:Name="LblSecurityText" HorizontalAlignment="Left" Content="{Binding PasswordStrengthText}" FontFamily="Poppins" FontSize="12" Foreground="{Binding PasswordStrengthColor}" ></Label>
+                </StackPanel>
 
-                <Label Grid.Row="3" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}">
+                <Label Grid.Row="4" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}">
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="Length {0}">
@@ -321,7 +327,7 @@
                     </TextBlock>
                 </Label>
 
-                <Border Grid.Row="4" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Border Grid.Row="5" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
                     <Grid Margin="30 10 30 10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -346,8 +352,8 @@
                 </Border>
 
 
-                <Label Grid.Row="5" Content="Settings" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
-                <Border Grid.Row="6" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Label Grid.Row="6" Content="Settings" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" ></Label>
+                <Border Grid.Row="7" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
                     <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
                         <Grid.ColumnDefinitions>
@@ -382,7 +388,7 @@
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="7" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Border Grid.Row="8" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
                     <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
                         <Grid.ColumnDefinitions>
@@ -416,7 +422,7 @@
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="8" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Border Grid.Row="9" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
                     <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
                         <Grid.ColumnDefinitions>
@@ -450,7 +456,7 @@
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="9" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
+                <Border Grid.Row="10" CornerRadius="15" Margin="0 0 0 15" Background="{StaticResource MainColor}">
 
                     <Grid HorizontalAlignment="Stretch" Margin="30 0 30 0">
                         <Grid.ColumnDefinitions>

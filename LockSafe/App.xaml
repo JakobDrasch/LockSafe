@@ -15,6 +15,11 @@
             <SolidColorBrush x:Key="SecondaryColor">#2B6CB0</SolidColorBrush>
             <SolidColorBrush x:Key="FontColor">#f0f3f4</SolidColorBrush>
             <SolidColorBrush x:Key="LogoColor">#293550</SolidColorBrush>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Images/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>

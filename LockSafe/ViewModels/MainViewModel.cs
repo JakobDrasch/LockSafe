@@ -26,6 +26,10 @@ namespace LockSafe.ViewModels
 
         private bool _isInitializing = false;
 
+        private SolidColorBrush[] _passwordSecurityColors = { new SolidColorBrush(Colors.Red), 
+                                                              new SolidColorBrush(Colors.DarkOrange), 
+                                                              new SolidColorBrush(Colors.Green) };
+
         private int _passwordLength;
         public int PasswordLength
         {
@@ -153,7 +157,51 @@ namespace LockSafe.ViewModels
             }        
         }
 
-        public SolidColorBrush PasswordStrengthColor { get; private set; }
+        private SolidColorBrush _passwordStrengthColor;
+        public SolidColorBrush PasswordStrengthColor 
+        { 
+            get
+            {
+                return _passwordStrengthColor;
+            }
+            private set
+            {
+                if (_passwordStrengthColor != value)
+                {
+                    _passwordStrengthColor = value;
+                    OnPropertyChanged(nameof(PasswordStrengthText));
+                    OnPropertyChanged(nameof(PasswordStrengthIcon));
+                }
+            }
+        }
+
+        public string PasswordStrengthText 
+        { 
+            get
+            {
+                if (PasswordStrengthColor == _passwordSecurityColors[0])
+                    return "Weak";
+                else if (PasswordStrengthColor == _passwordSecurityColors[1])
+                    return "Medium";
+                else if (PasswordStrengthColor == _passwordSecurityColors[2])
+                    return "Strong";
+                return "";
+            }
+        }
+
+        public Geometry PasswordStrengthIcon
+        {
+            get
+            {
+                if (PasswordStrengthColor == _passwordSecurityColors[2])
+                    return (Geometry) Application.Current.Resources["CheckIcon"];
+                else if (PasswordStrengthColor == _passwordSecurityColors[1])
+                    return (Geometry)Application.Current.Resources["WarningIcon"];
+                else
+                    return (Geometry)Application.Current.Resources["CloseIcon"];
+                
+            }
+        }
 
         public MainViewModel()
         {
@@ -235,11 +283,11 @@ namespace LockSafe.ViewModels
             var timeInSeconds = PasswordGenerator.EstimateCrackTime(entropy, 1_000_000);
 
             if (entropy < 40)
-                PasswordStrengthColor = new SolidColorBrush(Colors.Red);
+                PasswordStrengthColor = _passwordSecurityColors[0];
             else if (entropy < 60)
-                PasswordStrengthColor = new SolidColorBrush(Colors.Orange);
+                PasswordStrengthColor = _passwordSecurityColors[1];
             else
-                PasswordStrengthColor = new SolidColorBrush(Colors.Green);
+                PasswordStrengthColor = _passwordSecurityColors[2];
 
             OnPropertyChanged(nameof(PasswordStrengthColor));
 
