@@ -41,14 +41,14 @@ namespace LockSafe.Models
             if (_isNotificationOpen)
             {
                 return;
-            }
+            }            
+
+            NotificationPopup.IsOpen = true;
+            _isNotificationOpen = true;
 
             // Center the popup horizontally
             NotificationPopup.HorizontalOffset = (MainGrid.ActualWidth * 0.6D / -2D) + NotificationText.ActualWidth / 2D; // 0.6 because right column is 60% width
 
-            NotificationPopup.IsOpen = true;
-            _isNotificationOpen = true;
-        
             _notificationTimer!.Start();
         }
 
