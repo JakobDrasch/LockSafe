@@ -339,14 +339,16 @@
                         <TextBlock Text="4" VerticalAlignment="Center" Margin="0 0 10 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}"/>
 
                         <Slider 
-                    Grid.Column="1"
-                    Minimum="4"
-                    Maximum="64"                   
-                    IsSnapToTickEnabled="True"
-                    IsSelectionRangeEnabled="True"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource AppSliderStyle}"
-                    Value="{Binding PasswordLength}"/>
+                            Grid.Column="1"
+                            Minimum="4"
+                            Maximum="64"                   
+                            IsSnapToTickEnabled="True"
+                            IsSelectionRangeEnabled="True"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource AppSliderStyle}"
+                            Value="{Binding PasswordLength}"
+                            Cursor="Hand"
+                            IsMoveToPointEnabled="True"/>
 
                         <TextBlock Text="64" Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0" FontFamily="Poppins" FontSize="12" Foreground="{StaticResource LogoColor}" />
                     </Grid>
@@ -383,6 +385,7 @@
                     HorizontalAlignment="Right"
                     Style="{StaticResource CustomToggleButton}"
                     IsChecked="{Binding IncludeNumbers}"
+                    Cursor="Hand"
                     >
 
                         </ToggleButton>
@@ -417,7 +420,8 @@
                     HorizontalAlignment="Right"
                     Margin="20 5 0 5"
                     Style="{StaticResource CustomToggleButton}"
-                    IsChecked="{Binding IncludeLetters}">
+                    IsChecked="{Binding IncludeLetters}"
+                            Cursor="Hand">
 
                         </ToggleButton>
                     </Grid>
@@ -451,7 +455,8 @@
                     HorizontalAlignment="Right"
                     Margin="20 5 0 5"
                     Style="{StaticResource CustomToggleButton}"
-                    IsChecked="{Binding IncludeUpperCase}" >
+                    IsChecked="{Binding IncludeUpperCase}" 
+                            Cursor="Hand">
 
                         </ToggleButton>
                     </Grid>
@@ -485,7 +490,8 @@
                     HorizontalAlignment="Right"
                     Margin="20 5 0 5"
                     Style="{StaticResource CustomToggleButton}"
-                    IsChecked="{Binding IncludeSpecialCharacters}">
+                    IsChecked="{Binding IncludeSpecialCharacters}"
+                            Cursor="Hand">
 
                         </ToggleButton>
                     </Grid>
