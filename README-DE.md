@@ -77,4 +77,4 @@ Beiträge sind willkommen! Falls du eine Idee für eine neue Funktion oder eine 
 
 ## Lizenz
 
-Dieses Projekt steht unter der MIT-Lizenz – siehe [LICENSE](LICENSE) für weitere Details.
+Dieses Projekt steht unter der MIT-Lizenz – siehe [LICENSE](LICENSE.txt) für weitere Details.
