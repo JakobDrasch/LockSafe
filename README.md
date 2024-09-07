@@ -78,4 +78,4 @@ Contributions are welcome! If you have an idea for a new feature or improvement:
 
 ## License
 
-This project is licensed under the MIT License – see [LICENSE](LICENSE) for more details.
+This project is licensed under the MIT License – see [LICENSE](LICENSE.txt) for more details.
