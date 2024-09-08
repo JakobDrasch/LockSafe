@@ -14,10 +14,10 @@ namespace LockSafe.Models
         private static readonly string UpperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public static readonly string SpecialCharacters = "@#=&*_?-+!$";
 
-        private static bool HasLowercase(string password) => password.IndexOfAny("abcdefghijklmnopqrstuvwxyz".ToCharArray()) >= 0;
-        private static bool HasUppercase(string password) => password.IndexOfAny("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()) >= 0;
-        private static bool HasDigit(string password) => password.IndexOfAny("0123456789".ToCharArray()) >= 0;
-        private static bool HasSpecial(string password) => password.IndexOfAny("~`!@#$%^&*()-_=+[]{}|;:'\",.<>?/".ToCharArray()) >= 0;
+        private static bool HasLowercase(string password) => password.IndexOfAny(LowerCaseLetters.ToCharArray()) >= 0;
+        private static bool HasUppercase(string password) => password.IndexOfAny(UpperCaseLetters.ToCharArray()) >= 0;
+        private static bool HasDigit(string password) => password.IndexOfAny(Numbers.ToCharArray()) >= 0;
+        private static bool HasSpecial(string password) => password.IndexOfAny(SpecialCharacters.ToCharArray()) >= 0;
 
         public static string GeneratePassword(int length, bool includeNumbers, bool includeLetters, bool includeUpperCase, bool includeSpecialCharacters)
         {
