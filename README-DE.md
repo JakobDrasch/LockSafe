@@ -37,17 +37,14 @@
    - **Windows** (für WPF-Anwendungen)
    - **Git** (zum Klonen des Repositories)
 
-2. **Schritte zur Installation:**
-   1. Klone dieses Repository:  
+2. **Steps to install:**
+   1. Clone this repository:  
       ```bash
       git clone https://github.com/JakobDrasch/LockSafe.git
       ```
-   2. Öffne das Projekt in Visual Studio 2022 oder führe es über die Kommandozeile aus:
-      ```bash
-      dotnet run
-      ```
-   3. Stelle sicher, dass alle Abhängigkeiten installiert sind.
-   4. Baue und starte das Projekt.
+   2. Open the project in Visual Studio 2022
+   3. Ensure all dependencies are installed.
+   4. Build and run the project.
 
 ## Benutzung
 
