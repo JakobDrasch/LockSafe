@@ -42,10 +42,7 @@
       ```bash
       git clone https://github.com/JakobDrasch/LockSafe.git
       ```
-   2. Open the project in Visual Studio 2022 or run it from the command line:
-      ```bash
-      dotnet run
-      ```
+   2. Open the project in Visual Studio 2022
    3. Ensure all dependencies are installed.
    4. Build and run the project.
 
