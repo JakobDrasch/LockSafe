@@ -59,7 +59,10 @@
 
 ## Screenshots
 
-![Screenshot of the application](link-to-your-screenshot)
+![Screenshot of the application](Screenshots/locksafe-preview-1.png)
+![Screenshot of the application](Screenshots/locksafe-preview-2.png)
+![Screenshot of the application](Screenshots/locksafe-preview-3.png)
+![Screenshot of the application](Screenshots/locksafe-preview-4.png)
 
 ## Tech Stack
 
